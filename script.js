@@ -13,11 +13,13 @@ function setup(){
 const countDisplay = document.createElement("p");
 countDisplay.id = "episode-count";
 
+
 //Adding searchInput and countDisplay in DOM to show up before episodecards.
 
 const rootElem = document.getElementById("root");
 document.body.insertBefore(searchInput, rootElem);
 document.body.insertBefore(countDisplay, rootElem);
+
 
 //Adding Input Event Listener 
 
@@ -30,7 +32,7 @@ searchInput.addEventListener("input", () => {
     );
   });
 
-  countDisplay.textContent = `We have Found ${filteredEpisodes.length} episode(s)`;
+  countDisplay.textContent = `Displaying ${filteredEpisodes.length} / ${AllEpisodes.length} episodes`;
 
   makePageForEpisodes(filteredEpisodes);
 
@@ -91,7 +93,7 @@ function episodeSelector(){
 function makePageForEpisodes(episodeList) {
   
   const rootElem = document.getElementById("root");
-  //// Clear previous episodes before rendering new ones to avoid duplicates
+  // Clear previous episodes before rendering new ones to avoid duplicates
   rootElem.innerHTML = ""; 
 
   episodeList.forEach((episode) => {
