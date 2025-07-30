@@ -71,16 +71,21 @@ function episodeSelector(){
   const rootElem = document.getElementById("root");
   document.body.insertBefore(select, rootElem);
 
-// Add event listener to scroll to selected episode when changed
+// Add event listener to filter a single episode card
   select.addEventListener("change", () => {
-    
-    const selectedCode = select.value;        // Get the selected episode code       
-    const target = document.getElementById(selectedCode);  // Find the episode card by id
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" }); // Scroll smoothly to it
+    const selectedCode = select.value;
+
+    if (selectedCode === "all") {
+      // Show all episodes
+      makePageForEpisodes(AllEpisodes);
+    } else {
+      // Filter the episodes array to only the selected one
+      const filteredEpisode = AllEpisodes.filter(
+        (episode) => getEpisodeCode(episode) === selectedCode
+      );
+      makePageForEpisodes(filteredEpisode);
     }
   });
-
 }
 
 function makePageForEpisodes(episodeList) {
