@@ -1,6 +1,6 @@
-//You can edit ALL of the code here
-const AllEpisodes = getAllEpisodes();
-makePageForEpisodes(AllEpisodes);
+function setup() {
+  const rootElem = document.getElementById("root");
+}
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
