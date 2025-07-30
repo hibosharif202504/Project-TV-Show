@@ -36,20 +36,65 @@ searchInput.addEventListener("input", () => {
 
 
 })
+// Call episodeSelector here so dropdown gets created on page load
+  episodeSelector();
+
+  // Initial render of all episodes
+  makePageForEpisodes(AllEpisodes);
+}
+
+//Function for making an episode code so that we can recall it.
+
+function getEpisodeCode(episode) {
+  const season = String(episode.season).padStart(2, "0");
+  const number = String(episode.number).padStart(2, "0");
+  return `S${season}E${number}`;
+}
+function episodeSelector(){
+  const select = document.createElement("select");
+  select.id = "episode-selector"
+
+  AllEpisodes.forEach((episode,index) => {
+    const episodeOption = document.createElement("option")
+
+  // Use episode code as value (like "S01E01")
+    const episodeCode = getEpisodeCode(episode);
+    episodeOption.value = episodeCode;
+    
+  // Show episode code and name in dropdown
+    episodeOption.textContent = `${episodeCode} - ${episode.name}`;
+
+    select.appendChild(episodeOption);
+  });
+
+// Insert the select above the episode cards
+  const rootElem = document.getElementById("root");
+  document.body.insertBefore(select, rootElem);
+
+// Add event listener to scroll to selected episode when changed
+  select.addEventListener("change", () => {
+    
+    const selectedCode = select.value;        // Get the selected episode code       
+    const target = document.getElementById(selectedCode);  // Find the episode card by id
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" }); // Scroll smoothly to it
+    }
+  });
+
 }
 
 function makePageForEpisodes(episodeList) {
   
   const rootElem = document.getElementById("root");
+  //// Clear previous episodes before rendering new ones to avoid duplicates
   rootElem.innerHTML = ""; 
 
   episodeList.forEach((episode) => {
     const episodeDiv = document.createElement("div");
     episodeDiv.className = "episode-card";
 
-    const season = String(episode.season).padStart(2, "0");
-    const number = String(episode.number).padStart(2, "0");
-    const episodeCode = `S${season}E${number}`;
+    const episodeCode = getEpisodeCode(episode);
+    episodeDiv.id = episodeCode;
 
     episodeDiv.textContent = `${episodeCode} - ${episode.name}`;
 
