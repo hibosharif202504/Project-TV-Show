@@ -22,6 +22,25 @@ function setup() {
     .catch((error) => {
       rootElem.innerHTML = `<p style="color: red;">Episodes cannot be loaded at the moment. Please try again later.</p>`;
     });
+    createShowSelectorPlaceholder()
+}
+//Creating a placeholder for Show Selector
+function createShowSelectorPlaceholder(){
+  const select = document.createElement("select")
+  select.id = "show-selector"
+  const showOption = document.createElement("option");
+  showOption.value = "default";
+  showOption.textContent = "Select a show...";
+  select.appendChild(showOption);
+  const searchInput = document.getElementById("search-input");
+  const rootElem = document.getElementById("root");
+
+  if (searchInput) {
+    document.body.insertBefore(select, searchInput);
+  } else {
+  // fallback, just insert before the episode root if search doesn't exist yet
+    document.body.insertBefore(select, rootElem);
+  }
 }
 
 //Making a search box for displaying episodes based on search input
