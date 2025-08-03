@@ -29,7 +29,8 @@ img {
   justify-content: center;
 }
 #search-input,
-#episode-selector {
+#episode-selector,
+ #show-selector{
   padding: 10px;
   font-size: 16px;
   margin: 10px 5px;
@@ -41,8 +42,32 @@ img {
 
 /* Optional: On focus, give a highlight */
 #search-input:focus,
-#episode-selector:focus {
+#episode-selector:focus,
+#show-selector:focus  {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+
+body > select,
+body > input,
+body > #episode-selector,
+body > #episode-count {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+body {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  body > select,
+  body > input,
+  body > #episode-selector {
+    display: block;
+    margin: 10px auto;
+  }
 }
