@@ -1,9 +1,39 @@
+let AllShows = []
 let AllEpisodes = [];
+
+function populateShowSelector(){
+  fetch("https://api.tvmaze.com/shows")
+  .then((response)=>{
+    if(!response.ok){
+      throw new Error(
+        "Oops! Something went wrong while loading the shows"
+      )
+    }
+    return response.json()
+  })
+  .then((showsData)=>{
+    AllShows = showsData;
+    // Sort alphabetically by name (case-insensitive)
+    AllShows.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+
+    const showSelector = document.getElementById("show-selector");
+
+    // Clear all options except the first one (if any)
+    showSelector.innerHTML = '<option value="default">Select a show...</option>';
+
+    AllShows.forEach((show) => {
+      const option = document.createElement("option");
+      option.value = show.id;
+      option.textContent = show.name;
+      showSelector.appendChild(option);
+    });
+  });
+}
+
 
 function setup() {
   const rootElem = document.getElementById("root");
   rootElem.textContent = "Episodes Loading.....";
-
   fetch("https://api.tvmaze.com/shows/82/episodes")
     .then((response) => {
       if (!response.ok) {
@@ -22,7 +52,10 @@ function setup() {
     .catch((error) => {
       rootElem.innerHTML = `<p style="color: red;">Episodes cannot be loaded at the moment. Please try again later.</p>`;
     });
+    //Show Selector UI
     createShowSelectorPlaceholder()
+    //Calling it here to fetch and populate shows.
+    populateShowSelector()
 }
 //Creating a placeholder for Show Selector
 function createShowSelectorPlaceholder(){
